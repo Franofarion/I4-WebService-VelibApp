@@ -34,6 +34,7 @@ public class MarkerStationsView implements Serializable {
         try {
             simpleModel = new DefaultMapModel();
             appStation = new ApplicationStations();
+            //Call on method getAllStation() of ApplicationStations Java class
             Carto markerCarto = appStation.getAllStation();
             // Used for the path of the Gmap Marker
             StringBuilder ruta = new StringBuilder();
@@ -52,6 +53,7 @@ public class MarkerStationsView implements Serializable {
                     } else {
                         img_path = ruta.toString() + "/red-marker.png";
                     }
+                    
                     Marker mark = new Marker(coord, name, marker.getNumber(), img_path);
                     simpleModel.addOverlay(mark);
                 }   
@@ -71,8 +73,9 @@ public class MarkerStationsView implements Serializable {
     public void onMarkerSelect(OverlaySelectEvent event) {
         try {
             marker = (Marker) event.getOverlay();
-            // marker.data is set in the init()
+            // marker.data is set in the init(), the 3rd parameter of PrimeFaces Marker instanciation
             Short number = (Short) marker.getData();
+            //Call on method getStation() of ApplicationStations Java class
             Station station = this.appStation.getStation(number);
             String message = "Disponible : "+ station.getAvailable() + ", Utilisé : "+ station.getFree() + ", Total : " + station.getTotal();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, marker.getTitle(), message));
